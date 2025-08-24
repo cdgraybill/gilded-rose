@@ -30,4 +30,8 @@ public class Item {
     public void decreaseSellInByOne() {
         this.sellIn = this.sellIn - 1;
     }
+
+    public boolean hasNotReachedQualityCap() {
+        return this.quality < 50;
+    }
 }
