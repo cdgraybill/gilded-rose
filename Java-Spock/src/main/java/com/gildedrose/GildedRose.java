@@ -10,31 +10,27 @@ class GildedRose {
     public void updateQuality() {
         for (int i = 0; i < items.length; i++) {
             Item item = items[i];
-            String name = items[i].name;
-            int sellIn = items[i].sellIn;
-            int quality = items[i].quality;
 
-            if (!item.name.equals("Aged Brie")
-                    && !item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+            if (!item.name.equals("Aged Brie") && !item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                 if (item.quality > 0) {
                     if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
-                        item.quality = item.quality - 1;
+                        item.decreaseQualityByOne();
                     }
                 }
             } else {
                 if (item.quality < 50) {
-                    item.quality = item.quality + 1;
+                    item.increaseQualityByOne();
 
                     if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (sellIn < 11) {
+                        if (item.sellIn < 11) {
                             if (item.quality < 50) {
-                                item.quality = item.quality + 1;
+                                item.increaseQualityByOne();
                             }
                         }
 
                         if (item.sellIn < 6) {
                             if (item.quality < 50) {
-                                item.quality = item.quality + 1;
+                                item.increaseQualityByOne();
                             }
                         }
                     }
@@ -48,7 +44,7 @@ class GildedRose {
 
     private void decreaseSellIn(Item item) {
         if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
-            item.sellIn = item.sellIn - 1;
+            item.decreaseSellInByOne();
         }
     }
 
@@ -58,7 +54,7 @@ class GildedRose {
                 if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                     if (item.quality > 0) {
                         if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
-                            item.quality = item.quality - 1;
+                            item.decreaseQualityByOne();
                         }
                     }
                 } else {
@@ -66,7 +62,7 @@ class GildedRose {
                 }
             } else {
                 if (item.quality < 50) {
-                    item.quality = item.quality + 1;
+                    item.increaseQualityByOne();
                 }
             }
         }
