@@ -74,7 +74,7 @@ class GildedRoseSpec extends Specification {
 
     def "should not decrease quality of legendary item"() {
         given: "some items"
-        Item[] items = [new Item("Sulfuras, Hand of Ragnaros", 6, 30)];
+        Item[] items = [new Item("Sulfuras, Hand of Ragnaros", 6, 80)];
 
         and: "the application with these items"
         GildedRose app = new GildedRose(items);
@@ -85,7 +85,7 @@ class GildedRoseSpec extends Specification {
         then: "the quality is correct"
         app.items[0].name == "Sulfuras, Hand of Ragnaros"
         app.items[0].sellIn == 6
-        app.items[0].quality == 30
+        app.items[0].quality == 80
     }
 
     @Unroll
