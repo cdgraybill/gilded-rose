@@ -11,8 +11,10 @@ class GildedRose {
         for (Item item : items) {
             ItemDecorator itemDecorator = new ItemDecorator(item);
 
+            // legendary item
             if (itemDecorator.getQuality() == 80) {
                 break;
+                // backstage pass
             } else if (itemDecorator.getName().contains("Backstage passes")) {
                 if (itemDecorator.hasNotReachedQualityCap()) {
                     itemDecorator.increaseQualityByOne();
@@ -35,6 +37,7 @@ class GildedRose {
                         itemDecorator.setQuality(0);
                     }
                 }
+                // aged brie
             } else if (itemDecorator.getName().equals("Aged Brie")) {
                 itemDecorator.decreaseSellInByOne();
 
@@ -45,6 +48,10 @@ class GildedRose {
                         itemDecorator.increaseQualityByOne();
                     }
                 }
+
+                // conjured item
+            } else if (itemDecorator.getName().contains("Conjured")) {
+                // TODO: add conjured logic (degrades twice as fast as normal items)
             } else {
                 itemDecorator.decreaseSellInByOne();
 
