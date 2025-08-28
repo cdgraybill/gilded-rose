@@ -9,48 +9,56 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            if (item.isNormalItem() && item.quality > 0) {
-                item.decreaseQualityByOne();
-            }
+            ItemDecorator itemDecorator = new ItemDecorator(item);
 
-            if (item.hasNotReachedQualityCap() && item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                item.increaseQualityByOne();
+            if (itemDecorator.getQuality() == 80) {
+                break;
+            } else if (itemDecorator.getName().contains("Backstage passes")) {
+                if (itemDecorator.hasNotReachedQualityCap()) {
+                    itemDecorator.increaseQualityByOne();
 
-                if (item.sellIn < 11) {
-                    if (item.hasNotReachedQualityCap()) {
-                        item.increaseQualityByOne();
+                    if (itemDecorator.getSellIn() < 11) {
+                        if (itemDecorator.hasNotReachedQualityCap()) {
+                            itemDecorator.increaseQualityByOne();
+                        }
+                    }
+
+                    if (itemDecorator.getSellIn() < 6) {
+                        if (itemDecorator.hasNotReachedQualityCap()) {
+                            itemDecorator.increaseQualityByOne();
+                        }
+                    }
+
+                    itemDecorator.decreaseSellInByOne();
+
+                    if (itemDecorator.getSellIn() < 0) {
+                        itemDecorator.setQuality(0);
                     }
                 }
+            } else if (itemDecorator.getName().equals("Aged Brie")) {
+                itemDecorator.decreaseSellInByOne();
 
-                if (item.sellIn < 6) {
-                    if (item.hasNotReachedQualityCap()) {
-                        item.increaseQualityByOne();
+                if (itemDecorator.hasNotReachedQualityCap()) {
+                    itemDecorator.increaseQualityByOne();
+
+                    if (itemDecorator.getSellIn() < 0 && itemDecorator.hasNotReachedQualityCap()) {
+                        itemDecorator.increaseQualityByOne();
                     }
                 }
-            }
-
-            makeQualityAdjustment(item);
-        }
-    }
-
-    private void makeQualityAdjustment(Item item) {
-        if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
-            item.decreaseSellInByOne();
-        }
-
-        if (item.hasNotReachedQualityCap() && item.name.equals("Aged Brie")) {
-            item.increaseQualityByOne();
-
-            if (item.sellIn < 0 && item.hasNotReachedQualityCap()) {
-                item.increaseQualityByOne();
-            }
-        }
-
-        if (item.sellIn < 0 && item.quality > 0 && !item.name.equals("Aged Brie")) {
-            if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                item.decreaseQualityByOne();
             } else {
-                item.quality = 0;
+                itemDecorator.decreaseSellInByOne();
+
+                if (itemDecorator.getQuality() > 0) {
+                    itemDecorator.decreaseQualityByOne();
+                }
+
+                if (itemDecorator.getSellIn() < 0) {
+                    itemDecorator.decreaseQualityByOne();
+                }
+
+                if (itemDecorator.getQuality() < 0) {
+                    itemDecorator.setQuality(0);
+                }
             }
         }
     }
