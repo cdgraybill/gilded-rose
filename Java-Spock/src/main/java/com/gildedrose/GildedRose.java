@@ -9,54 +9,55 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
+            ItemDecorator itemDecorator = new ItemDecorator(item);
 
-            if (item.quality == 80) {
+            if (itemDecorator.getQuality() == 80) {
                 break;
-            } else if (item.name.contains("Backstage passes")) {
-                if (item.hasNotReachedQualityCap()) {
-                    item.increaseQualityByOne();
+            } else if (itemDecorator.getName().contains("Backstage passes")) {
+                if (itemDecorator.hasNotReachedQualityCap()) {
+                    itemDecorator.increaseQualityByOne();
 
-                    if (item.sellIn < 11) {
-                        if (item.hasNotReachedQualityCap()) {
-                            item.increaseQualityByOne();
+                    if (itemDecorator.getSellIn() < 11) {
+                        if (itemDecorator.hasNotReachedQualityCap()) {
+                            itemDecorator.increaseQualityByOne();
                         }
                     }
 
-                    if (item.sellIn < 6) {
-                        if (item.hasNotReachedQualityCap()) {
-                            item.increaseQualityByOne();
+                    if (itemDecorator.getSellIn() < 6) {
+                        if (itemDecorator.hasNotReachedQualityCap()) {
+                            itemDecorator.increaseQualityByOne();
                         }
                     }
 
-                    item.decreaseSellInByOne();
+                    itemDecorator.decreaseSellInByOne();
 
-                    if (item.sellIn < 0) {
-                        item.quality = 0;
+                    if (itemDecorator.getSellIn() < 0) {
+                        itemDecorator.setQuality(0);
                     }
                 }
-            } else if (item.name.equals("Aged Brie")) {
-                item.decreaseSellInByOne();
+            } else if (itemDecorator.getName().equals("Aged Brie")) {
+                itemDecorator.decreaseSellInByOne();
 
-                if (item.hasNotReachedQualityCap()) {
-                    item.increaseQualityByOne();
+                if (itemDecorator.hasNotReachedQualityCap()) {
+                    itemDecorator.increaseQualityByOne();
 
-                    if (item.sellIn < 0 && item.hasNotReachedQualityCap()) {
-                        item.increaseQualityByOne();
+                    if (itemDecorator.getSellIn() < 0 && itemDecorator.hasNotReachedQualityCap()) {
+                        itemDecorator.increaseQualityByOne();
                     }
                 }
             } else {
-                item.decreaseSellInByOne();
+                itemDecorator.decreaseSellInByOne();
 
-                if (item.quality > 0) {
-                    item.decreaseQualityByOne();
+                if (itemDecorator.getQuality() > 0) {
+                    itemDecorator.decreaseQualityByOne();
                 }
 
-                if (item.sellIn < 0) {
-                    item.decreaseQualityByOne();
+                if (itemDecorator.getSellIn() < 0) {
+                    itemDecorator.decreaseQualityByOne();
                 }
 
-                if (item.quality < 0) {
-                    item.quality = 0;
+                if (itemDecorator.getQuality() < 0) {
+                    itemDecorator.setQuality(0);
                 }
             }
         }
