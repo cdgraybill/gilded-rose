@@ -8,9 +8,10 @@ import spock.lang.Unroll
  */
 class GildedRoseSpec extends Specification {
 
-    def "should update quality correctly"() {
+    @Unroll
+    def "should update quality of normal items correctly"() {
         given: "some items"
-        Item[] items = [new Item("foo", 0, 0)];
+        Item[] items = [new Item("Normal Item", sellIn, quality)];
 
         and: "the application with these items"
         GildedRose app = new GildedRose(items);
@@ -19,30 +20,23 @@ class GildedRoseSpec extends Specification {
         app.updateQuality();
 
         then: "the quality is correct"
-        app.items[0].name == "foo"
-        app.items[0].sellIn == -1
-        app.items[0].quality == 0
+        app.items[0].name == "Normal Item"
+        app.items[0].sellIn == sellInResult
+        app.items[0].quality == qualityResult
+
+        where:
+        sellIn | quality || sellInResult | qualityResult
+        // sellIn not passed, normal quality degradation
+        0      | 0      || -1            | 0
+        5     | 5      || 4            | 4
+        // sellIn passed, doubled quality degradation
+        0     | 5      || -1            | 3
+        -7     | 5      || -8            | 3
     }
 
-    def "should decrease quality of normal item twice as fast when sell in has passed"() {
+    def "should increase quality of aged brie correctly"() {
         given: "some items"
-        Item[] items = [new Item("foo", 0, 4)];
-
-        and: "the application with these items"
-        GildedRose app = new GildedRose(items);
-
-        when: "updating quality"
-        app.updateQuality();
-
-        then: "the quality is correct"
-        app.items[0].name == "foo"
-        app.items[0].sellIn == -1
-        app.items[0].quality == 2
-    }
-
-    def "should increase quality of aged brie twice as fast when sell in has passed"() {
-        given: "some items"
-        Item[] items = [new Item("Aged Brie", 0, 4)];
+        Item[] items = [new Item("Aged Brie", sellIn, quality)];
 
         and: "the application with these items"
         GildedRose app = new GildedRose(items);
@@ -52,24 +46,20 @@ class GildedRoseSpec extends Specification {
 
         then: "the quality is correct"
         app.items[0].name == "Aged Brie"
-        app.items[0].sellIn == -1
-        app.items[0].quality == 6
-    }
+        app.items[0].sellIn == sellInResult
+        app.items[0].quality == qualityResult
 
-    def "should not increase quality past 50"() {
-        given: "some items"
-        Item[] items = [new Item("Aged Brie", 0, 49)];
-
-        and: "the application with these items"
-        GildedRose app = new GildedRose(items);
-
-        when: "updating quality"
-        app.updateQuality();
-
-        then: "the quality is correct"
-        app.items[0].name == "Aged Brie"
-        app.items[0].sellIn == -1
-        app.items[0].quality == 50
+        where:
+        sellIn | quality || sellInResult | qualityResult
+        // sellIn not passed, normal quality increase
+        5     | 5      || 4            | 6
+        1     | 5      || 0            | 6
+        // sellIn passed, doubled quality increase
+        0      | 0      || -1            | 2
+        -4      | 9      || -5            | 11
+        // doesn't exceed 50 quality
+        0      | 49      || -1           | 50
+        0      | 50      || -1           | 50
     }
 
     def "should not decrease quality of legendary item"() {
