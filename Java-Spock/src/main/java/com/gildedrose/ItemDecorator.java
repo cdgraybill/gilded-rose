@@ -31,6 +31,10 @@ public class ItemDecorator {
         item.quality = item.quality - 1;
     }
 
+    public void decreaseQualityByTwo() {
+        item.quality = item.quality - 2;
+    }
+
     public void decreaseSellInByOne() {
         item.sellIn = item.sellIn - 1;
     }

@@ -51,7 +51,19 @@ class GildedRose {
 
                 // conjured item
             } else if (itemDecorator.getName().contains("Conjured")) {
-                // TODO: add conjured logic (degrades twice as fast as normal items)
+                itemDecorator.decreaseSellInByOne();
+
+                if (itemDecorator.getQuality() > 0) {
+                    itemDecorator.decreaseQualityByTwo();
+                }
+
+                if (itemDecorator.getSellIn() < 0) {
+                    itemDecorator.decreaseQualityByTwo();
+                }
+
+                if (itemDecorator.getQuality() < 0) {
+                    itemDecorator.setQuality(0);
+                }
             } else {
                 itemDecorator.decreaseSellInByOne();
 
