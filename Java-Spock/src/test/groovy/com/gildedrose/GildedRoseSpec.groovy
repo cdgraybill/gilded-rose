@@ -32,6 +32,8 @@ class GildedRoseSpec extends Specification {
         // sellIn passed, doubled quality degradation
         0     | 5      || -1            | 3
         -7     | 5      || -8            | 3
+        -8     | 5      || -9            | 3
+        -10     | 5      || -11            | 3
     }
 
     def "should increase quality of aged brie correctly"() {
