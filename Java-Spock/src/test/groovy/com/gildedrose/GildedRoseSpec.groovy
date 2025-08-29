@@ -64,6 +64,34 @@ class GildedRoseSpec extends Specification {
         0      | 50      || -1           | 50
     }
 
+    @Unroll
+    def "should update quality of conjured items correctly"() {
+        given: "some items"
+        Item[] items = [new Item("Conjured weapon", sellIn, quality)];
+
+        and: "the application with these items"
+        GildedRose app = new GildedRose(items);
+
+        when: "updating quality"
+        app.updateQuality();
+
+        then: "the quality is correct"
+        app.items[0].name == "Conjured weapon"
+        app.items[0].sellIn == sellInResult
+        app.items[0].quality == qualityResult
+
+        where:
+        sellIn | quality || sellInResult | qualityResult
+        // sellIn not passed, normal quality degradation
+        0      | 0       || -1           | 0
+        5      | 5       || 4            | 3
+        // sellIn passed, doubled quality degradation
+        0      | 5       || -1           | 1
+        -7     | 5       || -8           | 1
+        -8     | 5       || -9           | 1
+        -10    | 5       || -11          | 1
+    }
+
     def "should not decrease quality of legendary item"() {
         given: "some items"
         Item[] items = [new Item("Sulfuras, Hand of Ragnaros", 6, 80)];

@@ -1,7 +1,5 @@
 package com.gildedrose;
 
-import java.util.Set;
-
 public class ItemDecorator {
     private final Item item;
 
@@ -21,10 +19,6 @@ public class ItemDecorator {
         return item.quality;
     }
 
-    public void setSellIn(int value) {
-        item.sellIn = value;
-    }
-
     public void setQuality(int value) {
         item.quality = value;
     }
@@ -35,6 +29,10 @@ public class ItemDecorator {
 
     public void decreaseQualityByOne() {
         item.quality = item.quality - 1;
+    }
+
+    public void decreaseQualityByTwo() {
+        item.quality = item.quality - 2;
     }
 
     public void decreaseSellInByOne() {
